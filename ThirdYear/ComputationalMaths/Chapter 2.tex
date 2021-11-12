@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\title{Computational Maths - Chapter 2}
+\author{Varjak Wolfe}
+
+\begin{document}
+\maketitle
+
+This follows Chapter 2 of the textbook.
+-Intermediate value theorem
+-Mean Value Theorem
+
+
+\textbf{Problem 2.2}
+
+Apply the intermediate value theorem to show that the function  \(f(x) = cosx -x^2\) has a root in the 
+interval $[O, \pi/2]$. 
+
+\textbf{Intermediate Value Theorem}
+
+The intermediate value theorem is a useful theorem about the behavior of a function in a closed interval. 
+It states that if f(x) is continuous on the closed interval [a, b] and M is any number between f(a) 
+and f(b), then there exists at least one number c in [a, b] such that 
+f(c) = M (Fig. 2-2). 
+
+
+The closed interval $[O, \pi/2]$. includes $0$ and $\pi/2$.
+The \textbf{Intermediate value theorem} states that there is a c between f(0) and $f(\pi/2)$ such that $f(c) = M$.
+
+If we want to find a root, then M is going to be 0.
+
+From \(f(x) = cosx -x^2\), we find that $f(0) = 1$ and $f(\pi/2) = -\pi^2/4$.
+
+Therefore, we see that when M = 0, \(-\pi^2/4 < M < 1\) i.e. $0$ is between the two values of $f(0)$ and $f(/2)$. 
+
+By the Intermediate Value Theorem, we have at least one root in the closed interval $[O, \pi/2]$
+
+
+\textbf{Problem 2.8}
+
+As a highway patrol officer, you are participating in a speed trap. A car passes your patrol car which 
+you clock at 5 5 mph. One and a half minutes later, your partner in another patrol car situated two miles 
+away from you, clocks the same car at 50 mph. Using the mean value theorem for derivatives (Eq. (2.4)), 
+show that the car must have exceeded the speed limit of 55 mph at some point during the one and a half 
+minutes it traveled between the two patrol cars. 
+
+\textbf{Mean Value Theorem for Derivatives}
+
+The mean value theorem is very useful in numerical analysis when finding bounds for the order of magnitude of numerical error for different 
+methods. Formally, it states that if f(x) is a continuous function on the 
+closed interval [a, b] and differentiable on the open interval (a, b) , then 
+there exists a number c within the interval, c E (a, b) , such that:
+
+\[f (c) = \frac{dx}{dy} = \frac{f(b) - f(a)}{b-a}\]
+
+
+
+Using the MVT, consider the rate of change of position with respect to time, x(t). 
+
+At $t=0, x = 0 miles$
+At $t = 1.5mins = 0.025hrs, x = 2 miles$.
+
+If x(t) is continuous on the closed interval [0,2] and differentiable on the open interbal (0,2), then the \textbf{mean value theorem for derivatives} states there exists some $t = c$ between $t = 0$ and $t = 1.5$ such that
+
+
+
+
+\[\frac{dx}{dy} = \frac{x(0.025)-x(0)}{0.025-0} = \frac{2}{0.025}mph = 80mph  \]
+
+Clearly, the car must have been speeding at some point between the two patrol cars at t = 0 and at t = 1.5mins.
+
+\textbf{Problem 2.22}
+Write the Taylor's series expansion of the function $f(x) = sin(ax) about x = 0, where a=/= 0$ is a 
+known constant
+
+\textbf{Taylor Series}
+Taylor series expansion of a function is a way to find the value of a 
+function near a known point, that is, a point where the value of the function is known. The function is represented by a sum of terms. In some cases (if the function is a polynomial), the Taylor series can give the exact value of the function. In most cases, however, a sum of an infinite number of terms is required for the exact value. If only a few terms are used, the value of the function that is obtained from the Taylor series is an approximation.
+
+\underline{Taylor Series for Function of One Variable}
+
+Expansion of $f(x)$ about a point $x = a$ is given by
+
+\[f (x) = f(a) + f'(a)(x-a) + \frac{f ''(a)}{2!}(x-a)^2 + \frac{f ^{(3)}(a)}{3!}(x-a)^3 + ...+\frac{f ^{(n)}(a)}{n!}(x-a)^n \]
+
+
+\end{document}

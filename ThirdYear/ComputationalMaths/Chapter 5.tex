@@ -1,0 +1,203 @@
+
+\documentclass{article}
+\usepackage{amsmath}
+\title{Computational Maths - Chapter 5}
+\author{Varjak Wolfe}
+
+\begin{document}
+\maketitle
+
+This follows Chapter 5 of the textbook.
+-Eigenvalues
+
+-Eigenvectors
+
+-Power Method
+
+
+
+\textbf{Background}
+
+For an N x N matrix [a], the number $\lambda$ is an eigenvalue of the matrix if:
+\[[a][u] =  \lambda[u] \]
+
+Vector [u] is a column vector with n elements called the eigenvector, associated with the eigenvalue  $\lambda$.
+
+A more general form of the operation is
+\[L[u] =  \lambda[u] \]
+where [a][u] is a mathematical operation and can be thought of as the matrix [a] operating on the operand [u]. L is an operator that can represent multiplication by a matrix, differentiation, integration etc. u is a vector or function and $\lambda$ is a scalar constant. 
+
+For example, if L represents second differentiation with respect to x, y is a function of x and k is a constant, then it can be written as:
+
+\[ \frac{d^2y}{dx^2} = k^2y\]
+
+The previous equation \textbf{\(L[u] =  \lambda[u\)} is a general statement of an eigenvalue problem where $\lambda$ is called the eigenvalue associated with operator L and u is the eigenvector/eigenfunction corresponding to $\lambda$ and L.
+
+\textbf{The Characteristic Equation}
+
+\[[a-\lambda I][u] = 0\] where [I] is the indentity matrix with the same dimensions as [a]. If the matrix \([a-\lambda I]\) has an inverse, then multiplying both sides of the equation by the inverse will give the trivial solution $[u] = 0$. If it does not have an inverse, a nontrivial solution for [u] is possible.
+
+Another way of stating this criterion based on Cramer's Rule from chapter 2: the matrix $[a-\lambda I]$ is singular if its determinant is zero:
+\[ det[a-\lambda I] - 0\]
+
+For a given matrix [a], it yields a polynomial equaron for $\lambda$ whose roots are the eigenvalues. Once the eigenvalues are known, we can find the eigenvectors by substituing the eigenvalues one at a time into \([a][u] =  \lambda[u] \)
+
+
+\textbf{The Basic Power Method}
+
+This is an iterative procedure for determining the largest real eigenvalue and the corresponding eigenvector of a matrix. Consider $N x N$ matrix [a] that has n distinct real eigenvalues \(\lambda 1, \lambda 2, ..., \lambda n\) and n associated eigenvectors \([u]1,[u]2, ..., [u]n\). The eigenvalues are numbered from largest to smallest such that  \[\lambda 1 < \lambda 2 < \lambda n\]
+
+1. Start with a column eigenvector $[x]i$ of length n. The vector can be any nonzero vector.
+
+2. Multiply the vector $[x]i$ by the matrix [a]. The result is a column vector$[x]_{i+1}, [x]_{i+1} = [a][x]_i$
+
+3.  Normalize the resulting vector $[x]_{i+1}$. This is done by factoring out the largest element in the vector. The result of this operation is a multiplicative factor (scalar) times a normalized vector. The normalized vector has the value 1 for the element that used to be the largest, while the absolute values of the rest of the elements are less than 1. 
+
+4. Assign the normalized vector (without the multiplicative factor) to $[x]_i$ and go back to step 1. 
+
+The iterations continue until the difference vetween vector $[x]_i$ and the normalized vector $[x]_{i+1}$ is less than some specified tolerance.
+
+The last multiplicatiive factor is the largest eigenvalue, and the normalized vector is the associated eigenvector.
+
+\textbf{Example 5-2: Using The Power Method to Determine the Largest Eigenvalue of a Matrix}
+
+\begin{equation*}
+\begin{pmatrix}
+4 & 1 & -2 \\
+-2 & 8 & 1 \\
+2 & 4 & -4 \\
+\end{pmatrix}
+\end{equation*}
+
+Use the Power Method and start with vector $x = [1, 1, 1]^T$
+
+Starting with $i = 1, x_1 = [1, 1, 1]^T$. With the power method, the vector $[x]_2$ is first calculated by $[x]_2 = [a][x]_1$ (step 2) and is then normalized (step 3):
+
+\begin{equation*}
+[x]_2 = [a][x]_1 =
+\begin{bmatrix}
+4 & 2 & -2 \\
+-2 & 8 & 1 \\
+2 & 4 & -4 \\
+\end{bmatrix}
+\begin{bmatrix}
+1 \\
+1 \\
+1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+4 \\
+7\\
+2 \\
+\end{bmatrix}
+= 7
+\begin{bmatrix}
+0.5714 \\
+1\\
+0.2857 \\
+\end{bmatrix}
+\end{equation*}
+
+
+For $i = 2$, the normalized vector $[x]_2$ (without the multiplicative factor) is multiplied by [a]. This results in $[x]_3$ which is then normalized:
+
+\begin{equation*}
+[x]_3 = [a][x]_2 =
+\begin{bmatrix}
+4 & 2 & -2 \\
+-2 & 8 & 1 \\
+2 & 4 & -4 \\
+\end{bmatrix}
+\begin{bmatrix}
+0.5714 \\
+1 \\
+0.2857 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+3.7143 \\
+7.1429 \\
+4 \\
+\end{bmatrix}
+= 7.1429
+\begin{bmatrix}
+0.52 \\
+1\\
+0.56 \\
+\end{bmatrix}
+\end{equation*}
+
+$i = 3$
+
+\begin{equation*}
+[x]_4 = [a][x]_3
+\begin{bmatrix}
+4 & 2 & -2 \\
+-2 & 8 & 1 \\
+2 & 4 & -4 \\
+\end{bmatrix}
+\begin{bmatrix}
+0.52\\
+1 \\
+0.56 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+2.96 \\
+7.52 \\
+2.8 \\
+\end{bmatrix}
+= 7.52
+\begin{bmatrix}
+0.3936 \\
+1\\
+0.3723 \\
+\end{bmatrix}
+\end{equation*}
+
+And so on.
+
+As of 8 iterations, the results are:
+
+$i = 8$
+
+\begin{equation*}
+[x]_9 = [a][x]_8
+\begin{bmatrix}
+4 & 2 & -2 \\
+-2 & 8 & 1 \\
+2 & 4 & -4 \\
+\end{bmatrix}
+\begin{bmatrix}
+0.3272\\
+1 \\
+0.3946 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+2.5197 \\
+7.7401 \\
+3.0760 \\
+\end{bmatrix}
+= 7.7401
+\begin{bmatrix}
+0.3255 \\
+1\\
+0.3974 \\
+\end{bmatrix}
+\end{equation*}
+
+The results show that the differences between the vector $[x_i] and the normalized vector [x_{i+1}] are getting smaller. The value of the multiplicative factor (7.7401) is an estimate of the largest eigenvalue.
+
+
+\textbf{The Inverse Power Method}
+\textbf{The Shifted Power Method}
+\textbf{The QR Factorization and Iteration Method}
+
+
+
+
+
+
+\end{document}
