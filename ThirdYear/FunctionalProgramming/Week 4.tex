@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\title{Functional Programming - Week 4}
+\author{Varjak Wolfe, 18325326}
+\begin{document}
+
+\textbf{Lambda Abstraction}
+
+This is an old notation for function-values where $f = \lambda x . x + 2$
+
+In Haskell,$\lambda$ becomes \textbackslash and . becomes ->
+
+\textcolor{green}{\textbackslash x -> e}
+
+where x is a variable and e is an expression that mentions x
+
+We can have nested abstractions \textcolor{green}{\textbackslash x -> \textbackslash y -> e} read as "the function taking x as input and returning a function that takes y as input and returns e as a result
+
+\textcolor{green}{sqr = \textbackslash n -> n * n} 
+
+is the eqvuivalent to:
+
+\textcolor{green}{sqr  n = n * n}
+
+
+\textbf{Factorial}
+
+A simple definition of factorial is:
+
+\textcolor{green}{fac  0 = 1}
+
+\textcolor{green}{fac  n = n * fac  (n-1)}
+
+But what is \textcolor{green}{fac}?
+
+\textcolor{green}{fac = \textbackslash n -> case n of}
+
+\textcolor{green}{0 -> 1}
+
+\textcolor{green}{m -> m * fac  (m-1)}
+
+Here we use a haskell case expression that does pattern matching in a general setting
+
+
+\textbf{Defining New Types - 3 Ways}
+
+\begin{itemize}
+\item Type Synonyms
+
+\textcolor{green}{type Name = String}
+
+Haskell considers String and Name to be exactly the same type
+\item Wrapped Types
+
+\textcolor{green}{newType Name = N String}
+
+If s is a value of type String, then \textcolor{green}{N  s} is a value of type Name. Haskell considers String and Name to be different types here.
+\item Algebraic Data Types
+
+\textcolor{green}{data Name = Official String String  |  NickName String}
+
+If f,s and n are values of type String, then \textcolor{green}{Official  f  s} and \textcolor{green}{NickName  n} are different values of type Name.
+
+
+\textbf{User-Defined Data Types: enums}
+
+With the data keyword, we can easily defne new enumerated types.
+
+\textcolor{green}{data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday}
+
+We can define oeprations on values of this type by pattern matching:
+
+\textcolor{green}{weekend  ::  Day -> Bool}
+
+\textcolor{green}{weekend  Saturday = True}
+
+\textcolor{green}{weekend Sunday  = True}
+
+\textcolor{green}{weekend \textunderscore = False}
+
+The identifiers Monday through Sunday are data constructors, and jsut like the types themselves, must begin with uppercase letters.
+
+
+\textbf{User-Defined Data Types: Recursive Structurs}
+
+If lists were not builtin, we could define them with the data keyword:
+
+\textcolor{green}{data List = Empty}
+\textcolor{green}{|  Node Int List}
+
+Using this def, the list [1,2,3] would be written:
+
+\textcolor{green}{Node  1  (Node  2  (Node  3  Empty))}
+
+Recursive types usually mean recursive functions:
+
+\textcolor{green}{length  ::  List -> Integer}
+
+\textcolor{green}{length  Empty = 0}
+
+\textcolor{green}{length  (Node  \textunderscore  rest) = 1 + (length  rest)}
+
+
+These lists arent as flexible as the builtins because they are not polymorphic but we can fix hat by using a type variable.
+
+\textcolor{green}{data List t = Empty}
+\textcolor{green}{ | Node t (list t)}
+
+No changes to the length function but the type becomes:
+
+\textcolor{green}{length  ::  (List  a) -> Integer}
+
+
+\textbf{Type Parameters}
+
+The types defined using type, newtype and data can have type parameters themselves:
+
+\textcolor{green}{type TwoList  t = ([t],[t])}
+
+The type "list-of-a" (\textcolor{green}{[a]}) can be considered a parameterized type \textcolor{green}{ [ ]  a}
+
+
+\textbf{Whats In a Name?}
+
+\textcolor{green}{data MyType = AToken | ANum Int | AList [Int]}
+
+\begin{itemize}
+\item the name \textcolor{green}{MyType} after the data keyword is the type name
+\item the names \textcolor{green}{AToken, ANum, AList} are data-constructor names
+\end{itemize}
+
+
+\end{itemize}
+
+\end{document}
+

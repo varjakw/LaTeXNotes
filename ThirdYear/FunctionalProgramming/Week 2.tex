@@ -1,0 +1,318 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\title{Functional Programming - Week 2}
+\author{Varjak Wolfe, 18325326}
+\begin{document}
+
+\textbf{Guards}
+
+Often we want to have different equations for different equations
+
+\[
+    signum(x) -
+\begin{cases}
+    0,		& \text{if } x = 0\\
+    -1,             & \text{if} x < 0\\
+    1,              & \text{if} x > 0\\
+\end{cases}
+\]
+
+To write this in Haskell:
+
+\includegraphics{guards}
+
+Each guard is tested iin turn, adn the first one to match selects an alternative. This means its OK to have a guard that would always be true, as long as it is the last alternative.
+
+So the previous definition could have been written like this:
+
+\includegraphics{guards2}
+
+
+We can use guards to select special cases in functions. This function is true when the year number is a leap year:
+
+\includegraphics{leap}
+
+
+\textbf{Patterns and Guards}
+
+Guards and Patterns can be combined:
+
+\includegraphics{gpat}
+
+First the patterns are matched; when an equation is found the guards are evaluated in order in the usual ways.
+
+If no guard matches then we return to the pattern matching stage and try to find another equation.
+
+
+\textbf{The Behaviour of startswith}
+
+The second argument of startswith is a list of things, while the first argument must have the same type as the things in the list.
+
+The first line of the startswith code above matches the case when the second list argument is empty, and ignores the first argument, returning False.
+
+\textcolor{green}{$>$ startswith 1 [ ]}
+
+\textcolor{green}{False}
+
+If the second list argument is not empty, then the second pattern match succeeds, and we proceed to compare the first list element (x) with the first argument (c), thus we do the second line of the startswith code above.
+
+\textcolor{green}{$>$ startswith 42 [42, 41, 40 ]}
+
+\textcolor{green}{True}
+
+
+\textbf{Factorial as Patterns}
+
+\includegraphics{fact}
+
+
+\textbf{Function Notation}
+
+$f(x) = x + 1$
+
+In Haskell, we could write:
+
+\textcolor{green}{f1(x) = x+1}
+
+But we usually write:
+
+\textcolor{green}{f2  x = x+1}
+
+
+$g(x,y,z) = x + y + z$
+
+In Haskell, we could write:
+
+\textcolor{green}{g1(x,y,z) = x+y+z}
+
+But we usually write:
+
+\textcolor{green}{g1  x  y  z  = x+y+z }
+
+
+As far as Haskell is concerned, f1(x) and f2  x  are the same.
+
+However, g1(x,y,z) and g2  x  y  z  are not:
+
+Their types are different:
+
+\textcolor{green}{g1 :: Num a => (a,a,a) -> a}
+
+\textcolor{green}{g2 :: Num a => a-> a ->  a-> a}
+
+Function g1 takes a triple of numbers and returns a number, whereas g2 takes a number, another number and another number, and returns a number.
+
+
+\textbf{Pattern Matching}
+
+Pattern \textcolor{green}{('c':zs)}
+
+matches expression \textcolor{green}{'c':('a':('t':[ ]))}
+
+with \textcolor{green}{zs} bound to \textcolor{green}{'a':('t':[ ]}
+
+\begin{itemize}
+  \item We can build patterns from atomic values, variables and certain kinds of constructions.
+  \item An atomic value, such as 3, 'a' or "abc" can only match itself
+  \item A variable or the wildcard \textunderscore will match anything
+  \item A construction is either:
+
+a tuple such as (a.b) or (a.b.c) etc
+
+a list built using [ ] or :
+
+or a user-defined datatype
+
+\end{itemize}
+
+A construction pattern matches if all its sub-components match
+
+
+Function definition equations may have a sequence of patterns. Each pattern is matched against the corresponding expression, and all such matches must succeed. One binding is returned for all of the matches. Any given variable may only occur once in any pattern sequence.
+
+
+\textbf{Pattern Examples}
+
+\textcolor{green}{myfun  x  y  z = whatever --using x  y  z}
+
+\begin{itemize}
+\item If we want the first two arguments to be the same, then we must use a conditional:
+
+\textcolor{green}{myfun  x  x  z = whatever --cant use x twice here, illegal}
+
+\textcolor{green}{myfun  x  y  z | x==y = whatever --this works!}
+
+\item First argument must be zero, second is arbitrary and third is a non-empty list
+
+\textcolor{green}{myfun  0  y  (z:zs) = whatever}
+
+\item First argument must be zero, second is arbitrary and third is a non-empty list, whose first element is character 'c'
+
+\textcolor{green}{myfun  0  y  ('c':zs) = whatever}
+
+\item First argument must be zero, second is arbitrary and third is a non-empty list, whose tail is a singleton
+
+\textcolor{green}{myfun  0  y  (z:[z']) = whatever}
+
+\end{itemize}
+
+\includegraphics{pattern}
+
+The pattern is \textcolor{green}{x  (y:ys)  3}
+\begin{itemize}
+\item First fails because the pattern has a non-empty list for (y:ys) but the values have an empty list [ ]
+\item Second passes because x = 99, y = 1, ys = [2,3]
+\item Third passes because x = 99, ys = [2,1]
+\end{itemize}
+
+Also, the binding x = 99, y = 1, ys = [2,3] can be written as a simultaneous substitution: \textcolor{green}{[99,1,[2,3]/x,y,ys]}
+
+
+\textbf{More Function Notation}
+
+We can define and use functions whose names are either variable identifiers (varid) or variable operators (varsym)
+
+For varid names, the function def uses prefix notation, where the function names appears before the arguments:
+
+\textcolor{green}{myfun  x  y = x+y+Y}
+
+For varsym names, it uses infix, where the function jas two arguments and the name appears between the arguments:
+
+\textcolor{green}{x  +++  y = x+y+y}
+
+We can use infix for varid by enclosing the name in backticks
+
+\textcolor{green}{x  'plus2'  y = x+y+y}
+
+We can use prefix for varsym using parentheses
+
+\textcolor{green}{(+++)  x  y = x+y+y}
+
+
+\textbf{Writing Functions using Other Functions}
+
+\begin{itemize}
+\item Function \textcolor{green}{even} returns true if its integer argument is even
+
+\textcolor{green}{even  n = n  'mod'  2 == 0}
+
+We use the Prelude modulo function 
+
+\item Function \textcolor{green}{recip} calculates the reciprocal of its argument
+
+\textcolor{green}{recip  n = 1/n}
+
+This uses the division function from Prelude
+
+\item Function call \textcolor{green}{splitAt  n  xs} returns two lists, the first with the first n elements of xs, the second with the rest of the elements
+
+\textcolor{green}{splitAt  n  xs = (take n xs, drop n xs)}
+
+Here we use the list functions \textcolor{green}{take} and \textcolor{green}{drop} from Prelude
+\end{itemize}
+
+
+\textbf{Higher Order Functions}
+
+What is the difference between these two functions?
+
+
+
+\textcolor{green}{add  x  y = x+y}
+
+\textcolor{green}{add2  (x, y) = x+y}
+
+We can see it in the types; add takes one argument at a time, returning a function that looks for the next argument. This concept is known as Currying.
+
+\textcolor{green}{add  ::  Integer -> (Integer -> Integer)}
+
+\textcolor{green}{add2  ::  (Integer -> Integer) -> Integer}
+
+
+Functions are first class, meaning they occupy the same status as values; you can pass them as arguments, make them part of data structures etc
+
+\textcolor{green}{increment  ::  Integer -> Integer}
+
+\textcolor{green}{increment  = add 1}
+
+If the type of add is \textcolor{green}{Integer -> Integer -> Integer} and the type of \textcolor{green}{add 1 2} is Integer, then the type of \textcolor{green}{add 1} is \textcolor{green}{Integer -> Integer}
+
+This is the notion of partial application.
+
+Another example of this would be that an infix operator can be partially applied by taking a "section"
+
+\textcolor{green}{increment = (1 +)}
+
+\textcolor{green}{addnewline = (++"/n"}
+
+\textcolor{green}{double  :: Integer -> Integer}
+
+\textcolor{green}{double = (*2)}
+
+\textcolor{red}{$>$ [  double  x | x <- [1..10]  ]}
+
+\textcolor{red}{[2,4,6,8,10,12,14,16,18,20]}
+
+Functions can be taken as parameters as well.
+
+\textcolor{green}{twice  ::  (a -> a) -> a -> a}
+
+\textcolor{green}{twice  f  x = f  (f  x)}
+
+\textcolor{green}{addtwo = twice increment}
+
+Here we see functions being defined as functions of other functions.
+
+In fact, we can define function composition using this technique.
+
+\textcolor{green}{compose  ::  (b -> c) -> (a -> b) -> a -> c}
+
+\textcolor{green}{compose  f  g  x = f  (g  x)}
+
+\textcolor{green}{twice2  f = f  'compose'  f}
+
+We can define functions without naming their inputs, using composition:
+
+\textcolor{green}{second  ::  [a] -> a}
+
+\textcolor{green}{second = head . tail}
+
+\textcolor{red}{$>$ second [1,2,3]}
+
+\textcolor{red}{2}
+
+
+\textbf{Writing Functions using Recursion}
+
+\textbf{take}
+
+\begin{itemize}
+\item \textcolor{green}{take  ::  Int -> [a] -> [a]} Let \textcolor{red}{xs1 = take n xs} below. Then \textcolor{red}{xs1} is the first n elements of xs. If n<= 0, then \textcolor{red}{xs1 = [ ]}. If \textcolor{red}{n>= length xs}, then \textcolor{red}{xs1 = xs}
+\item \textcolor{green}{take n  \textunderscore | n <= 0 = [ ]}
+
+\textcolor{green}{take  \textunderscore  [ ] = [ ]}
+
+\textcolor{green}{take  n  (x:xs) = x : take  (n-1)  xs}
+\end{itemize}
+
+
+\textbf{drop}
+
+\begin{itemize}
+\item \textcolor{green}{drop  ::  Int -> [a] -> [a]}. Let \textcolor{red}{ (xs1,xs2) = splitAt   n  xs} below. Then xs1 is the first n elements of xs. Then xs2 is xs with the first n elements removed. If \textcolor{red}{n>= length xs} then \textcolor{red}{(xs1,xs2) = (xs,[ ])}. If n<= 0, then \textcolor{red}{(xs1,xs2) = ([ ],xs)}
+\item \textcolor{green}{splitAt  n  xs | n <= 0 = ([ ],xs)}
+
+\textcolor{green}{splitAt  \textunderscore  [ ] = ([ ],[ ])}
+
+\textcolor{green}{splitAt  n  (x:xs)
+  = let (xs1,xs2) = splitAt  (n-1)  xs
+   in (x:xs1,xs2)}
+\end{itemize}
+
+
+
+\end{document}
+

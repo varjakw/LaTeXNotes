@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\title{Functional Programming - Week 3}
+\author{Varjak Wolfe, 18325326}
+\begin{document}
+
+\textbf{Prelude Lists}
+
+See Week 2 slides for type signature etc for prelude list functions.
+
+
+\textbf{Haskell Syntax}
+
+Case sensitive; these are all differenet names:
+
+ab, aB, Ab, AB
+
+\begin{itemize}
+\item Variable Identifiers (varid) start with lowercase e.g. myNAME
+\item Constructor Identifiers (conid) start with uppercase letters e.g. Tree
+\item Variable Operator (varsym) start with any symbol and continue with symbols and the colon e.g. | : |
+\item Constructor Operators (consym) start with a colon and continue with symbols and the colon e.g. : + :
+\end{itemize}
+
+
+\textbf{Operators}
+
+\begin{itemize}
+\item Some operators are left associative such as +, -, *, / e.g. \textcolor{green}{a+b+c} parses as \textcolor{green}{(a+b)+c}
+\item Some oeprators are right associative such as \&\&, || e.g. \textcolor{green}{a:b:c:[ ]} parses \textcolor{green}{as a:(b:(c:[ ]))}
+\item VOther operators are non-associative such as ==./=,<,>,<=,>= e.g.\textcolor{green}{a<= b <= c} is illegal but \textcolor{green}{(a <= b) \&\& (b <= c)} is ok
+\end{itemize}
+
+
+\textbf{Functions}
+
+\begin{itemize}
+\item Function application is denoted by juxtaposition and is left-associative
+\item \textcolor{green}{f  x  y  z} parses as \textcolor{green}{((f  x)  y)  z}
+\item if we want f applied to both x, and to the result of the application of g to y, we must write \textcolor{green}{f  x  (g  y)}
+\item In types, the function arrow is right associative \textcolor{green}{Int -> Char -> Bool} passes as \textcolor{green}{Int -> (Char -> Bool)}
+\item The type of a function whose first argument is itself a function must be written as \textcolor{green}{(a -> b) -> c}
+\end{itemize}
+
+
+\textbf{Variable Declaration}
+
+\begin{itemize}
+\item This can be either a function or a pattern
+\item A declaration can also have a lhs that is a single pattern: \textcolor{green}{patn = expr}
+\end{itemize}
+
+\end{document}
+
