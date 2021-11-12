@@ -64,7 +64,7 @@ If s is a value of type String, then \textcolor{green}{N  s} is a value of type 
 
 If f,s and n are values of type String, then \textcolor{green}{Official  f  s} and \textcolor{green}{NickName  n} are different values of type Name.
 
-
+\end{itemize}
 \textbf{User-Defined Data Types: enums}
 
 With the data keyword, we can easily defne new enumerated types.
@@ -130,10 +130,51 @@ The type "list-of-a" (\textcolor{green}{[a]}) can be considered a parameterized 
 \begin{itemize}
 \item the name \textcolor{green}{MyType} after the data keyword is the type name
 \item the names \textcolor{green}{AToken, ANum, AList} are data-constructor names
+\item type names and data constructor names are in different namespcaes so they can overlap e.g.
+
+\textcolor{green}{ data Thing = Thing String | Thing Int}
+
+\item The same principle applies to to newtypes:
+
+\textcolor{green}{newtype Nat = Nat Int}
+
+\item We call these algebraic data types
 \end{itemize}
 
 
-\end{itemize}
+\textbf{Multiply-Parameterised Data Types}
+
+Here is a useful data type:
+
+\textcolor{green}{data Pair a b = Pair a b}
+
+\textcolor{green}{divmod :: Integer -> Integer -> (Pair Integer Integer)}
+
+\textcolor{green}{divmod x y = Pair (x / y) (x 'mod' y)}
+
+\includegraphics{prelude}
+
+\textbf{Example: failure}
+
+We can write functions such as \textcolor{green}{head} so that they fail outright:
+
+\textcolor{green}{head (x:xs) = x} No [ ] pattern, so runtime fail for head [ ]
+
+Define type \textcolor{green}{Maybe} to represent an optional value of type a.
+
+\textcolor{green}{data Maybe a = Nothing | Just a}
+
+Now we can handle failure for \textcolor{green}{head} in a more manageable way:
+
+\textcolor{green}{mhead :: [a] -> Maybe a}
+
+\textcolor{green}{mhead [ ] = Nothing}
+
+\textcolor{green}{mhead (x:Xs) = Just x}
+
+\textbf{Maybe}
+
+Maybe is a good way to deal with errors or exceptional cases. The \textcolor{green}{Maybe} type encapsulates an optional value. A value of type \textcolor{green}{Maybe a} either contains a value of type a, represented as \textcolor{green}{Just a} or it is empty, represented as \textcolor{green}{Nothing}.
 
 \end{document}
 
