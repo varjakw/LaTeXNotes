@@ -1,0 +1,126 @@
+
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\title{Symbolic Programming -  Chapter 1 - Facts, Rules, Queries}
+\author{Varjak Wolfe}
+
+\begin{document}
+\maketitle
+
+These notes follow the online coursebook Learn Prolog Now.
+
+\textbf{Facts, Queries, Rules}
+
+A collection of facts and rules is called a knowledge base.
+
+Prolog programs are simply knowledge bases which describe some collection of relationships.
+
+We use a prolog program by posing queries; that is, by asking questions about the information stored in the knowledge base.
+
+Facts are used to state things that are unconditionally true of some situation.
+
+e.g: Knowledge Base 1
+
+\textcolor{red}{woman(mia).}
+
+\textcolor{red}{woman(jody).}
+
+\textcolor{red}{woman(yolanda).}
+
+\textcolor{red}{playsAirGuitar(Jody).}
+
+\textcolor{red}{party.}
+
+\textcolor{green}{?- woman(mia).}
+
+Prolog will answer yes because this is one of our stated facts
+
+\textcolor{green}{?- playsAirGuitar(mia).}
+
+Prolog will answer no.
+
+\textcolor{green}{?- party.}
+
+Yes
+
+
+e.g: Knowledge Base 2
+
+\textcolor{red}{happy(yolanda).}  This is a fact.
+
+\textcolor{red}{happy(mia).}  This is a fact.
+
+\textcolor{red}{listens2Music(yolanda):- happy(yolanda).}   This is a rule. It depends on the condition after :- (if)
+
+\textcolor{red}{playsAirGuitar(yolanda):- listens2Music(yolanda).}
+
+\textcolor{red}{playsAirGuitar(mia):- happy(mia).}
+
+
+The facts and rules contained in a knowledge base are called clauses. 
+
+Knowledge base 2 contains 2 facts and 3 rules. We also say it has 3 predicates happy, listens2Music and playsAirGuitar.
+
+The happy predicate is defined using a single clause (a fact). The playsAirGuitar predicate is defined using two clauses (one ruke and one fact).
+
+We can also define a rule with two items in the body i.e. two conditions
+
+conjunction:
+
+ playsAirGuitar(vincent):- listens2Music(vincent), happy(vincent). 
+
+Vincent plays air guitar if he listens to music and is happy
+
+disjunction:
+
+ playsAirGuitar(vincent):- listens2Music(vincent); happy(vincent). 
+
+Vincent plays air guitar if he listens to music or is happy
+
+
+e.g.: Knowledge Base 3
+
+\textcolor{red}{woman(mia).}
+
+\textcolor{red}{woman(jody).}
+
+\textcolor{red}{woman(yolanda).}
+
+ \textcolor{red}{loves(vincent,mia).}
+
+  \textcolor{red}{ loves(marsellus,mia).}
+
+  \textcolor{red}{ loves(pumpkin,honey\_bunny).}
+
+ \textcolor{red}{  loves(honey\_bunny,pumpkin). }
+
+\textcolor{green}{?- woman(X).}
+
+X is a variable. Any word beginning with upper case letter is a variable. This query says: tell me which of the individuals you know about is a woman.
+
+
+e.g.: Knowledge Base 4
+
+\textcolor{red}{ loves(vincent,mia).}
+
+ \textcolor{red}{loves(marsellus,mia).}
+
+  \textcolor{red}{ loves(pumpkin,honey\_bunny).}
+
+ \textcolor{red}{  loves(honey\_bunny,pumpkin).}
+   
+ \textcolor{red}{  jealous(X,Y):-  loves(X,Z),  loves(Y,Z). }
+
+Contains 4 facts about the loves relation and one rule.
+
+However, the rule has 3 variables. It is defining a concept of jealousy. X will be jealous of Y if there is some person Z that X loves, and Y loves that same person Z too.
+
+This is a general statement about everyone in the knowledge base, not just specific people.
+
+\textcolor{green}{?- jealous(marsellus, W).}
+
+This asks: can you find a person W such that Marsellus is jealous of them?
+
+The program answers W= vincent.
+\end{document}

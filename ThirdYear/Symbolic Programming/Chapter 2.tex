@@ -1,0 +1,99 @@
+
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\title{Symbolic Programming -  Chapter 2 - Unification and Proof Search}
+\author{Varjak Wolfe}
+
+\begin{document}
+
+\maketitle
+
+These notes follow the online coursebook Learn Prolog Now.
+
+\textbf{Unification}
+
+Recall the different types of terms:
+\begin{itemize}
+\item Constants. These can either be atoms (such as vincent ) or numbers (such as 24 ).
+\item Variables. (Such as X , Z3 , and List .)
+\item Complex terms. These have the form:
+\item functor(term1,...,termn) .
+\end{itemize}
+
+Considering the Knowledge Base from the previous chapter, we saw that Prolog unifies woman(X) with woman(mia), thereby instantiating the variable X to mia.
+
+Two terms unify if they are the same term if they contain variables that can be uniformly instantiated with terms in such a way that the resulting terms are equal.
+
+42 and 42 unify
+
+mia and mia unify
+
+woman(mia) and woman(vincent) do not unify
+
+Now what about mia and X? They are not the same but the variable X can be instantiated to mia which makes them equal. Similarly, woman(X) and woman(mia) unify because X can be instantiated to mia.
+
+How about loves(vincent, X) and loves (X, mia). They do not unify because there is no instantiation of X that would make them equal. Instantiating X to vincent would give the term loves(vincent, vincent) and loves (vincent, mia) which are not equal. Same if X is mia.
+
+When Prolog unifies two terms it performs all the necessary instantiations, so that the terms really are equal afterwards. This functionality, together with the fact that we are allowed to build complex terms (that is, recursively structured terms) makes unification a powerful programming mechanism.
+
+\begin{itemize}
+   \item If term1 and term2 are constants, then term1 and term2 unify if and only if they are the same atom, or the same number.
+   \item If term1 is a variable and term2 is any type of term, then term1 and term2 unify, and term1 is instantiated to term2 . Similarly, if term2 is a variable and term1 is any type of term, then term1 and term2 unify, and term2 is instantiated to term1 . (So if they are both variables, they’re both instantiated to each other, and we say that they share values.)
+    \item If term1 and term2 are complex terms, then they unify if and only if:
+        They have the same functor and arity, and
+        all their corresponding arguments unify, and
+        the variable instantiations are compatible. (For example, it is not possible to instantiate variable X to mia when unifying one pair of arguments, and to instantiate X to vincent when unifying another pair of arguments .)
+   \item Two terms unify if and only if it follows from the previous three clauses that they unify.
+\end{itemize}
+
+We can test this by using a built in =/2 predicate
+
+\textcolor{green}{?- mia = mia}
+
+
+\textbf{Proof Search}
+
+How does prolog search a knowledge base to see if a query is satisfied?
+
+Consider the following knowledge base:
+
+\textcolor{red}{f(a).}
+
+\textcolor{red}{f(b).}
+
+\textcolor{red}{g(a).}
+
+\textcolor{red}{g(b).}
+
+\textcolor{red}{h(b).}
+
+\textcolor{red}{k(X):- f(X), g(X), h(X).}
+
+Suppose we then query:
+
+\textcolor{green}{k(Y)}
+
+Prolog reads the knowledge base and tries to unify k(Y) with either a fact, or the head of a rule. It searches the knowledge base and carries out the unification, if it can, at the first place possible. Here there is only one possibility: it must unify k(Y) to the head of the rule k(X):- f(X), g(X), h(X).
+
+When prolog unifies the variable in a query to a variable in a fact or rule, it generates a brand new variable (say \textunderscore G34) to represent the shared variables. So the original query now reads:
+
+k(\textunderscore G34)
+
+and Prolog knows that:
+
+k(\textunderscore G34)  :-  f(\textunderscore G34),  g(\textunderscore G34),  h(\textunderscore G34).
+
+The original query says "I want to find an indiviual that has property k". The rule says "they have property k if they have proprties f, g and h.". So if prolog can find an indivudual with these proprties, it will have satisfied the query.
+
+Our original goal was to prove k(Y). When we unified k(Y) with the head of the rule, X, Y and \textunderscore G34 were made to share the same value, giving us the goals of f(\textunderscore G34), g(\textunderscore G34), h(\textunderscore G34).
+
+Prolog will try to satisfy these goals one by one, left to right.
+
+Prolog searches the knowledge base and the first item it finds that unifies with the goal of f(\textunderscore sG34) is fact f(a). This satisfies the goal. Now when we unify f(\textunderscore G34) to f(a), \textunderscore G34 is instantiated ti a, and this instantiation applies to all occurences of \textunderscore G34 in the list of goals. So the list now looks like this:
+
+g(a), h(a)
+
+g(a) is satisfied as above but there is no information matching h(a). We have only h(b), and this wont unify with h(a)
+
+\end{document}
