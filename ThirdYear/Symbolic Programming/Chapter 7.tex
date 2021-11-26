@@ -97,4 +97,143 @@ A recogniser says yes or no but a parser also provides a parse tree.
 
 
 \textbf{CFG Recognition in Prolog}
+
+Using a list to represent a sequence of tokens: [a, woman, shoots, a, man]
+
+The rule s $->$ np vp can be thought as concatenating an np-list with a vp-list resulting in an s-list. We can concatenate using append/3. See recogniser.pl in PrologDCG on GitHub.
+
+The problems with this recogniser:
+
+\begin{itemize}
+\item It doesnt use the input string to guide the search
+\item Goals such as np(A) and vp(B) are called with uninstantiated variables
+\end{itemize}
+
+
+A more efficient implementation: difference lists
+
+
+
+\textbf{Dffierence Lists}
+
+[a,b,c]-[] is the list [a.b.c]
+
+[a,b,c]-[d] is the list [a.b.c]
+
+[a,b,c|T]-T is the list [a.b.c]
+
+X-X is the empty list [ ]
+
+See Recogniser.pl for an implementation
+
+The recogniser using difference lists is a lot more efficient than using append/3. 
+
+
+\textbf{Definite Clause Grammars}
+
+DCGs have the simplicity of append but the efficiency of difference lists.
+
+They are a nice notation for writing grammars that hides the underlying difference list variables. 
+
+s $-->$ np, vp. 
+
+np $-->$ det, n. 
+
+vp $-->$ v, np. 
+
+vp $-->$ v. 
+
+det $-->$ [the].     
+       
+det $-->$ [a]. 
+
+n $-->$ [man].    
+           
+n $-->$ [woman].   
+        
+v $-->$ [shoots].
+
+
+A DCG rule such as s $-->$ np, vp. is really a syntactic variant of:
+
+s(A,B):- np(A,C), vp(C.B).
+
+
+Another DCG example:
+
+s $-->$ s, conj, s.    
+       
+s --> np, vp. 
+
+np --> det, n.   
+           
+vp --> v, np.    
+         
+vp --> v. 
+ 
+det --> [the].  
+            
+det --> [a]. 
+
+n --> [man].    
+            
+n --> [woman].            
+
+v --> [shoots]. 
+
+conj --> [and].  
+          
+conj --> [or].    
+        
+conj --> [but].
+
+We have added some recursive rules in this case though.
+
+
+\textbf{DCG Without Left-Recursive Rules}
+
+s $-->$ simple\textunderscore s, conj, s.    
+ 
+s $-->$ simple\textunderscore s. 
+
+simple\textunderscore s $-->$ np, vp. 
+
+np $-->$ det, n.      
+         
+vp $-->$ v, np.      
+        
+vp $-->$ v. 
+ 
+det $-->$ [the].  
+             
+det $-->$ [a]. 
+
+n $-->$ [man].  
+            
+n $-->$ [woman].   
+         
+v $-->$ [shoots]. 
+
+conj $-->$ [and].    
+      
+conj $-->$ [or].    
+        
+conj $-->$ [but]. 
+
+
+\textbf{DCGs for Formal Languages}
+
+A formal language is simply a set of strings. We will define the language $a^nb^n$, where the must be the same number of a's as b's.
+
+s $-->$ [ ].
+
+s $-->$ l,s,r.
+
+l $-->$ [a]
+
+r $-->$ [b]
+
+
+
+ 
 \end{document}
