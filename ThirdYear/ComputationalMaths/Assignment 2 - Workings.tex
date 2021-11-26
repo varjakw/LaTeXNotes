@@ -1,0 +1,629 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\title{Computational Maths - Assignment 2}
+\author{Varjak Wolfe, 18325326}
+
+\begin{document}
+\maketitle
+
+Assignment 2 of Computational Mathematics.
+
+
+\textbf{Question 1}
+
+Using MATLAB with the given script gave me an answer of logical 1.
+
+$X=(1$\textasciitilde$=0)|(2>2)\&(7<4);$
+
+Here, the first bit is asking if 1 is not equal to 0 (\textasciitilde=)., which it is, so answer is true i.e. 1
+
+The symbol | is logical OR
+
+The symbol \& is logical AND
+
+$(2>2)\&(7<4)$ is equivalent to (0 \& 0), because both are false and thus 0.
+
+So, X = 1 OR 0
+
+X = 1
+
+Answer is A
+
+
+\textbf{Question 2}
+
+Upon running the given script, the result were:
+
+   -7.7417
+
+   -0.2583
+
+The script:
+
+p=[1 8 2]; 
+
+r=roots(p);
+
+where p is polynomial represented by a row vector with elements 1,8,2. 
+[1 8 2] represents $x^2 + 8x + 2$. Using the quadratic formula, we get results very close to matlab's.
+
+Answer is E
+
+
+\textbf{Question 3}
+
+a=12/1*15/1;  	= 180
+
+b= a/a*a; 		= 180
+
+c=tand(30)+1/3; 	=  0.9107
+
+d=1+c; 		=   1.9107
+
+e = a-b*c+d;	= 17.9876
+
+Answer is E
+
+\textbf{Question 4}
+
+
+Use the Power Method and start with vector $x = [1, -0.8, 0.9]^T$. Perform 7 iterations.
+
+\underline{Starting with $i = 1$},$ x_1 = [1, -0.8, 0.9]^T$.
+\newline
+With the power method, the vector $[x]_2$ is first calculated by $[x]_2 = [a][x]_1$ (step 2) and is then normalized (step 3):
+
+\begin{equation*}
+[x]_2 = [a][x]_1 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+1 \\
+-0.8 \\
+0.9 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+-31.8 \\
+32.7\\
+-32.7 \\
+\end{bmatrix}
+= 32.7
+\begin{bmatrix}
+ -0.9725\\
+1\\
+-1\\
+\end{bmatrix}
+\end{equation*}
+
+This is done by taking 32.7 out and dividing each element of the matrix 
+
+$
+\begin{bmatrix}
+-31.8 \\
+32.7\\
+-32.7 \\
+\end{bmatrix}
+$
+by 32.7, giving the result
+$
+= 32.7
+\begin{bmatrix}
+ -0.9725\\
+1\\
+-1\\
+\end{bmatrix}
+$
+\newline
+
+\underline{Now with $i = 2$}
+
+
+\begin{equation*}
+[x]_3 = [a][x]_2 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+ -0.9725\\
+1\\
+-1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.8075\\
+-35.6425\\
+ 35.56\\
+\end{bmatrix}
+= -35.6425
+\begin{bmatrix}
+-1.005\\
+1\\
+-0.9977\\
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 3$}
+
+
+\begin{equation*}
+[x]_4 = [a][x]_3 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-1.005\\
+1\\
+-0.9977\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.9982\\
+-36.0351\\
+36.0639\\
+\end{bmatrix}
+=-36.0351
+\begin{bmatrix}
+-0.999\\
+1\\
+-1\\
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 4$}
+
+
+\begin{equation*}
+[x]_5 = [a][x]_4 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-0.999\\
+1\\
+-1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.993\\
+-35.987\\
+35.984\\
+\end{bmatrix}
+=-35.987
+\begin{bmatrix}
+-1\\
+1\\
+-0.999\\
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 5$}
+
+
+\begin{equation*}
+[x]_6 = [a][x]_5 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-1\\
+1\\
+-0.999\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.984\\
+-35.987\\
+35.993\\
+\end{bmatrix}
+=-35.987
+\begin{bmatrix}
+-0.999\\
+1\\
+-1//
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 6$}
+
+
+\begin{equation*}
+[x]_7 = [a][x]_6 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-0.999\\
+1\\
+-1//
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.993\\
+-35.987\\
+35.984\\
+\end{bmatrix}
+=-35.987
+\begin{bmatrix}
+-1\\
+1\\
+-0.999\\
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 7$}
+
+
+\begin{equation*}
+[x]_8 = [a][x]_7 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-1\\
+1\\
+-0.999\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.984\\
+-35.987\\
+35.993\\
+\end{bmatrix}
+=-35.987
+\begin{bmatrix}
+-0.999\\
+1\\
+-1//
+\end{bmatrix}
+\end{equation*}
+
+\underline{Now with $i = 8$}
+
+
+\begin{equation*}
+[x]_9 = [a][x]_8 =
+\begin{bmatrix}
+-7 & 13 & -16 \\
+13 & -10 & 13 \\
+-16 & 13 & -7 \\
+\end{bmatrix}
+\begin{bmatrix}
+-0.999\\
+1\\
+-1//
+\end{bmatrix}
+=
+\begin{bmatrix}
+35.993\\
+-35.987\\
+35.984\\
+\end{bmatrix}
+=-35.987
+\begin{bmatrix}
+-1\\
+1\\
+-0.999\\
+\end{bmatrix}
+\end{equation*}
+
+After 8 iterations, I have gotten -36, [-1, 1, -1], leading me to answer E. None of the above.
+It is close to answer C so perhaps some of my signs are wrong but I will answer E.
+
+
+\textbf{Question 5}
+
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c|c| } 
+ \hline
+$T_k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7\\
+\hline
+$S_k$)& 1.15 & 2.32 & 3.32 & 4.53 & 5.65 & 6.97 & 8.02 & 9.23\\
+ \hline
+\end{tabular}
+\end{center}
+
+Testing the linear relationship between T and S
+
+
+$S = aT + b$
+
+
+$S_x = \sum^{8}_{i=1}X_i = 28$
+
+
+$S_y = \sum^{8}_{i=1}Y_i = 41.19$
+
+
+$S_{xx} = \sum^{8}_{i=1}X_i^2 = 140$
+
+
+$S_{xy} = \sum^{8}_{i=1}X_iY_i = 0 + 2.32 + 6.64 + 13.59 + 22.6 + 34.85 + 48.12 + 64.61 = 192.73$
+
+
+\[a_1 = \frac{nS_{xy} - S_{x}S_y}{nS_{xx}-(S_x)^2} = \frac{(8 * 192.73) - (28*41.19)}{(8 * 140)-(28)^2} =  -1.138\]
+
+\[a_0 = \frac{S_{xx}S_y - S_{xy}S_x}{nS_{xx}-(S_x)^2} = \frac{(140 * 41.19) - (192.73 * 28)}{(8 * 140-(28)^2} = 1.1016 \]
+
+The equation of best fit is $ y = a_1x + a_0$
+
+$S = -1.138T + 1.1016$
+
+The answer is E
+
+
+\textbf{Question 6}
+
+(1, 5.12), (3, 3), (6, 2.48), (9, 2.34), (15, 2.18)
+
+\[f(x) = \alpha e^{\beta x}\]
+
+For $y = be^{mx}, b = \alpha, m = \beta$ 
+
+$ln(y) = mx + ln(b)$
+
+In $ Y = a_1X + a_0$,
+\begin{itemize}
+\item $ Y = ln(y)$
+\item $X = x$
+\item $a_1 = m$
+\item $a_0 = ln(b)$
+\end{itemize}
+
+The values for the linear least squares regression are $x_i$ and $ln(yi)$
+
+
+$S_x = \sum^{5}_{i=1}X_i = 1 + 3 + 6 + 9 + 15 = 34$
+
+
+$S_y = \sum^{5}_{i=1}ln(Y_i) = ln(5.12) + ln(3) + ln(2.48) + ln(2.34) + ln(2.18) = 5.269 $
+
+
+$S_{xx} = \sum^{5}_{i=1}X_i^2 = 352$
+
+
+$S_{xy} = \sum^{5}_{i=1}X_iln(Y_i) = 1.633 + 3.296 + 5.4496 + 7.651 + 11.6899 = 29.7195 $
+
+
+\[a_0 = \frac{S_{xx}S_y - S_{xy}S_x}{nS_{xx}-(S_x)^2} = 1.3977  \]
+
+\[a_1 = \frac{nS_{xy} - S_{x}S_y}{nS_{xx}-(S_x)^2} = - 0.050577 \]
+
+
+
+Approximately 1.3980, -0.050601
+
+Answer is A
+
+
+\textbf{Question 7}
+
+(1, 5.12), (3, 3), (6, 2.48), (9, 2.34), (15, 2.18)
+
+\[ln(y) = mln(x) + ln(b)\]
+
+\[Y = a_1X + a_0\]
+
+\[g(x) = \alpha + \frac{\beta}{x}\]
+
+Take g(x) as:
+
+\[y = \beta(\frac{1}{x}) + a\]
+
+Convert it to normal form by using X = 1/x
+to get $ Y = \beta X + \alpha$
+
+Treat $X_i$'s as $\frac{1}{x_i}$
+
+
+$ln(y) = mx + ln(b)$
+
+$ Y = a_1X + a_0$,
+
+
+The values for the linear least squares regression are $1/x_i$ and $yi$
+
+
+$S_x = \sum^{5}_{i=1}1/X_i = (1/1 + 1/3 + 1/6 + 1/9 + 1/15) = 1.6778$
+
+
+$S_y = \sum^{5}_{i=1}Y_i = 5.12 + 3 + 2.48 + 2.34 + 2.18 = 15.12$
+
+
+$S_{xx} = \sum^{5}_{i=1}(\frac{1}{X_i})^2 =1 + 1/9 + 1/36 + 1/81 + 1/225 = 1.155679 $
+
+
+$S_{xy} = \sum^{5}_{i=1}\frac{1}{X_i}Y_i = 5.12 + 1 + 0.413 + 0.26 + 0.1453 = 6.9383$
+
+
+\[a_0 = \frac{S_{xx}S_y - S_{xy}S_x}{nS_{xx}-(S_x)^2} = 1.9683  \]
+
+\[a_1 = \frac{nS_{xy} - S_{x}S_y}{nS_{xx}-(S_x)^2} = 3.1461 \]
+
+
+
+Approximately 1.9681, 3.1468
+
+Answer is A
+
+
+\textbf{Question 8}
+
+Newton's Interpolating Polynomial
+
+\[f(x) = log_4(cos(x))\]
+
+$x_1 = 0.5$
+
+$ x_2 = 1.0$
+
+$ x_3 = 1.5$
+
+\[f(0.5) = log_4(cos(0.5)) = -0.0942 = y_1 \]
+
+\[f(1.0) = log_4(cos(1.0)) = -0.4444 = y_2 \]
+
+\[f(1.5) = log_4(cos(1.0)) = -1.911 = y_3 \]
+
+Evaluate $P_2(x)$ at $x = 1.3$
+
+\[P_2(x) = a_1 + a_2(1.3-0.5) + a_3(1.3 - 0.5)(1.3 - 1.0)\]
+
+\[P_2(x) = a_1 + a_2(0.8) + a_3(0.8)(0.3)\]
+
+Sub in the two points to get:
+
+\[y_2 = y_1 + a_2(x_2 - x_1)\]
+or
+\[a_2 = \frac{-0.4444 - (-0.0942)}{1.0-0.5}\]
+
+\[a_2 = -0.7004\]
+
+Subbing the third point:
+
+\[y_3 = y_1 + \frac{y_2-y_1}{x_2-x_1}(x_3-x_1) + a_3(x_3-x_1)(x_3-x_2)\]
+
+\[-1.911 = -0.0942 + \frac{-0.4444-(-0.0942)}{1-0.5}(1.5-0.5) + a_3(1.5-0.5))(1.5-1.0)\]
+
+\[-1.911 = -0.0942 + (-0.7004)(1.5-0.5) + a_3(1.5-0.5))(1.5-1.0)\]
+
+\[-1.911 = -0.7946 + a_3(1.5-0.5))(1.5-1.0)\]
+
+\[-1.911 = -0.7946 + a_3(0.5)\]
+
+\[-1.911  + 0.7946 = a_3(0.5)\]
+
+\[-1.1164 = a_3(0.5)\]
+
+\[-2.2328\]
+
+This is totally wrong lol. I did it in lagrange and got D so im not sure what happened
+
+
+\textbf{Question 9}
+
+Evaluate the Lagrange interpolating polynomial
+
+\[f(x) = x^3log_2(x)\]
+
+$x_1 = 2$
+
+$ x_2 = 3$
+
+$ x_3 = 7$
+
+To get y values:
+
+\[f(2) =  (x)^3log_2(x) = y_1 = 8\]
+
+\[f(3) =  (x)^3log_2(x) = y_2 = 42.794 \]
+
+\[f(7) =  (x)^3log_2(x) = y_3 = 962.9227 \]
+
+Evaluate $P_2(x)$ at $x = 5$
+
+\[P_2(x) = \frac{(x-x_2)(x-x_3)}{(x_1 - x_2)(x_1 - x_3)}y_1 +  \frac{(x-x_1)(x-x_3)}{(x_2 - x_1)(x_2 - x_3)}y_2 + \frac{(x-x_1)(x-x_2)}{(x_3 - x_1)(x_3 - x_2)}y_3\]
+
+
+\[P_2(5) = \frac{(5-3)(5-7)}{(2 - 3)(2 - 7)}y_1 +  \frac{(5-2)(5-7)}{(3 - 2)(3 - 7)}y_2 + \frac{(5-2)(5-3)}{(7 - 2)(7 - 3)}y_3\]
+
+\[P_2(5) = (-0.8)y_1 + (1.5)y_2 + (0.3)y_3\]
+
+\[P_2(5) = (-0.8)(8) + (1.5)(42.794) + (0.3)(962.9227)\]
+
+\[P_2(5) = 346.66781\]
+
+Answer is E
+
+
+\textbf{Question 10}
+
+Evaluate the Lagrange interpolating polynomial, then derive it to get the acceleration
+
+From the textbook: The coefficients a1, and a2 are the same in the first-order and second-order polynomials. This means that if two points are given and a 
+first-order Newton's polynomial is fit to pass through those points, and 
+then a third point is added, the polynomial can be changed to be of second-order and pass through the three points by only determining the value of one additional coefficient.
+
+This seems relevant to the fact that there are 4 data points but the scientist used a second order equation.
+
+\[f(x) = x^3log_2(x)\]
+
+$x_1 = 9$
+
+$ x_2 = 15$
+
+$ x_3 = 20$
+
+$y_1 = 21$
+
+$ y_2 = 32$
+
+$ y_3 = 48$
+
+1: \[f(x) = a_1 + a_2(x-x_1)\]
+
+\[\frac{f(x) - y_1}{x - x_1} = \frac{y_2 - y_1}{x_2 - x_1}\]
+
+Solve for f(x):
+
+2: \[f(x) = y_1 + \frac{y_2-y_1}{x_2-x_1}(x-x_1)\]
+
+Comparing equations 1 and 2, we get:
+
+$a_1 = y_1$ and $a_2 \frac{y_2-y_1}{x_2-x_1}$
+
+$a_1 = 21$
+
+$a_2 = \frac{32-21}{15-9} = 1.833$
+
+\[f(x) = a_1 + a_2(x-x_1)+a_3(x-x_1)(x-x_2)\]
+
+\[y_3 = y_1 + \frac{y_2-y_1}{x_2-x_1}(x_3 - x_1) + a_3(x_3 - x_1)(x_3 - x_2)\]
+
+Rearranged:
+
+\[a_3 = \frac{\frac{y_3-y_2}{x_3-x_2} - \frac{y_2-y_1}{x_2-x_1}}{(x_3-x_1)}\]
+
+\[a_3 = 0.124 \]
+
+We now have a second order with 3 points. Sub in our x = 18
+
+\[f(x) = a_1 + a_2(x-x_1)+a_3(x-x_1)(x-x_2)\]
+
+Differentiated:
+
+\[f'(x) = a_3(x-x_2) + a_3(x-x_1) + a_2\]
+
+\[f'(18) = 0.124(18-15) + 0.124(18-9) + 1.833\]
+
+\[f'(18) = 3.321\]
+
+Answer is E
+
+
+
+
+
+
+
+
+
+\end{document}
+
