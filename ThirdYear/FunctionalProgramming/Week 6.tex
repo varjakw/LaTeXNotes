@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\title{Functional Programming - Week 6}
+\author{Varjak Wolfe, 18325326}
+\begin{document}
+
+\textbf{Some operators are "nice"}
+
+Some operators have nice properties like having unit values e.g. $0+a = a = a+0$
+
+We can code a simplifier for these as follows:
+
+\textcolor{green}{uopSimp cons u (Val v) e | v == u = e}
+
+\textcolor{green}{uopSimp cons u e (Val v) | v == u = e}
+
+\textcolor{green}{uopSimp cons u e1 e2 = cons e1 e2}
+
+We can deduce that cons is:
+
+\textcolor{green}{cons :: Expr -> Expr -> Expr}
+
+So we use Add and Mul directly:
+
+\textcolor{green}{simp (Add e1 e2) = uopSimp Add 0.0 e1 e2}
+
+\textcolor{green}{simp (Mul e1 e2) = uopSimp Mul 1.0 e1 e2}
+
+
+The data constructors of \textcolor{green}{Expr} are in fact functions, whose types are as follows:
+
+\includegraphics{data}
+
+So, cons has to have type \textcolor{green}{Expr -> Expr -> Expr}, which is why Add and Mul are suitable arguments to pass into \textcolor{green}{uopSimp}
+
+
+Given declaration:
+
+\textcolor{green}{data MyType = ... | MyCons T1 T2 ... Tn | ....}
+
+then data constructor MyCons is a function of type:
+
+\textcolor{green}{MyCons :: T1 -> T2 -> ... -> Tn -> MyType}
+
+Partial applications of MyCons are also valid
+
+\textcolor{green}{(MyCons x1 x2) :: T3 -> ... -> Tn -> MyType}
+
+Data constructors are the only functions that can occur in patterns.
+
+
+\textbf{Abstractions}
+
+A lot of the higher-order functions in the Prelude are examples of abstraction of common programming shapes encountered in functional programs (e.g. map and folds).
+
+\textbf{Turning Common Shapes Into Functions}
+
+Remember these?
+
+\textcolor{green}{sum [ ] = 0}
+\textcolor{green}{sum (n:ns) = n + sum ns}
+
+\textcolor{green}{length [ ] = 0}
+\textcolor{green}{length (\textunderscore:xs) = 1 + length xs}
+
+\textcolor{green}{prod [ ] = 0}
+\textcolor{green}{prod (n:ns) = n * prod ns}
+
+They have a common pattern which is typically referred to as folding. Can we abstract this?
+
+\textbf{Commonalities}
+
+\begin{itemize}
+\item They all have the empty list as a base case
+\item They all have a non-empty list as the recursive case
+\item The base case returns a fixed "unit" value, which we will call \textcolor{red}{u}
+
+\textcolor{red}{$<$abs-fold$>$ [ ] = u}
+
+\textcolor{red}{$<$abs-fold$>$ (a:as) = ..... $<$abs-fold$>$ as}
+
+\end{itemize}
+\end{document}
+

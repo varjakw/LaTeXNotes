@@ -1,0 +1,233 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\title{Functional Programming - Week 5}
+\author{Varjak Wolfe, 18325326}
+\begin{document}
+
+\textbf{Classes Based on Other Classes}
+"=>" is context, stating that the second class depends on the first
+
+\textbf{Polymorphic Type Classes}
+
+How might we define an Eq instance for lists?
+
+\begin{itemize}
+\item For \textcolor{green}{[Bool]}
+\textcolor{green}{instance Eq [Bool] where}
+
+\textcolor{green}{[ ] == [ ] = True}
+
+\textcolor{green}{(b1:bs1) == (b2:bs2) = b1 == b2 \&\& bs1 == bs2}
+
+\textcolor{green}{\textunderscore == \textunderscore = False}
+
+\item Cant we do this polymorphically?
+
+\item We can!
+
+\textcolor{green}{instance (Eq a) => Eq [a] where}
+
+\textcolor{green}{[ ] == [ ] = True}
+
+\textcolor{green}{(x1:xs1) == (x2:xxs2) = x1 ==x2 \&\& xs1 == xs2}
+
+\textcolor{green}{\textunderscore == \textunderscore = False}
+\end{itemize}
+
+We can define equality on [a] provided we have equality set up for a
+
+Here we are defining equlity for a type constructor ([ ] for lists) applied to a type a.
+
+
+\textbf{How Haskell Handles a Class Name/Operator}
+
+Consider the following polymorphic function:
+
+\textcolor{green}{threewayEq  ::  Eq a => [a] -> [a] -> [a] -> Bool}
+
+\textcolor{green}{threewayEq  xs  ys  ys = xs == ys \&\& ys == zs}
+
+The code for threewayEq is polymorphic so at compilation time, we cant say which implementation of == is used. Bu tin the general case, a function like this gets an additional aprameter, a "class dictionary".
+
+This is used at run-time to look up the implementation of ==, once a concrete instance for type a is known.
+
+
+\textbf{Type-Constructor Classes}
+
+Consider the class declaration for \textcolor{green}{Functor}
+
+\textcolor{green}{class Functor  f where}
+
+\textcolor{green}{fmap  ::  (a -> b) -> f  a -> f  b}
+
+The idea here is that \textcolor{green}{fmap  f} applied to a value of type \textcolor{green}{f  a} will apply f to all occurences of a within that value.
+
+Here, we are asssociating a class with a type-constructor  f
+
+
+\textbf{Type-Constructor Examples}
+
+The \textcolor{green}{Maybe} type-constructor
+
+\textcolor{green}{data Maybe a = Nothing | Just a}
+
+\textbf{Instances of Functor}
+
+\textcolor{green}{Maybe} as a \textcolor{green}{Functor}
+
+\textcolor{green}{instance Functor Maybe where}
+
+\textcolor{green}{fmap f Nothing = Nothing}
+
+\textcolor{green}{fmap f (Just a) = Just (f x)}
+
+
+\textbf{Functor Instance for Maybe}
+
+\textcolor{green}{class Functor f where}
+
+\textcolor{green}{fmap :: (a -> b) -> f a -> f b}
+
+
+\textcolor{green}{instance Functor Maybe where}
+
+\textcolor{green}{fmap (f :: a -> b) (Nothing :: Maybe a) = Nothing :: Maybe b}
+
+\textcolor{green}{fmap f (Just (x :: a) :: Maybe a) = Just (f x :: b) :: Maybe b}
+
+
+\textbf{An Example: Expressions}
+
+We are going to write functions that manipulate expressions in a variety of ways.
+
+\includegraphics{expr}
+
+$(10 + 5) * 90$ becomes \textcolor{green}{Mul  (Add  (Val 10)  (Val 5))  (Val 90)}
+
+$10 + (5 * 90)$ becomes \textcolor{green}{Add  (Val 10)  (Mul  (Val 5)  (Val 90))}
+
+We can write a function to calculate the result of these expressions:
+
+\textcolor{green}{eval  ::  Expr -> Double}
+
+\textcolor{green}{eval  (Val x) = x}
+
+\textcolor{green}{eval  (Add  x  y) = eval x + eval y}
+
+\textcolor{green}{eval  (Mul  x  y) = ...} --similar to above. do similarly for sub and dvd
+
+\textcolor{red}{$>$ eval Add  (Val 10)  (Mul  (Val 5)  (Val 90))}
+
+\textcolor{red}{460.0}
+
+We can also write a function to simplify expressions
+
+\textcolor{green}{simp  ::  Expr -> Expr}
+
+\textcolor{green}{simp  (Val x) = (Val x)}
+
+We can use pattern matching in let-expressions!
+
+\textcolor{green}{simp (Add  e1  e2) = let  (Val x) = simp e1}
+
+\textcolor{green}{(val y) = simp e2}
+
+\textcolor{green}{in Val (x+y)}
+
+simp  (Dvd  x  y) = ....
+
+
+\textbf{Adding Variables to Expressions}
+
+\includegraphics{var}
+
+We can also see that our simplification will return either a \textcolor{red}{(Val value)} or a \textcolor{red}{(Var var)}.
+
+\textcolor{green}{simp  (Var v) = (Var v}
+
+This complicates our simp somewhat because we can no longer assume that simp always returns a Val.
+
+\textbf{Simplification for Operators}
+
+We now have to pattern-match on the results of recursive calls to simp
+
+\includegraphics{simp1}
+
+\includegraphics{simp2}
+
+
+\textbf{Evaluating Exprs with Variables}
+
+We can't fully evaluate our extended expression language without some way of knowing what values any of the variables (Var) have. We can imagine eval should have a signature like this:
+
+\textcolor{red}{eval :: Dict Id Double -> Expr -> Double}
+
+It now has a new (first) argument, a Dict that associates Double (data values) with Id (key values).
+
+
+\textbf{How to model a lookup dictionary?}
+
+A dictionary maps keys to data values. An obvious approach is to use a list of key/data pairs:
+
+\textcolor{red}{type Dict k d = [ (k,d) ]}
+
+Defining a link between key and data is simply cons-ing such a pair onto the start of the list:
+
+\textcolor{red}{define :: Dict k d -> k -> d -> Dict k d}
+
+\textcolor{red}{define d s v - (s,v):d}
+
+Lookup simply searches along the list:
+
+\textcolor{red}{find :: Eq k => Dict k d -> k -> Maybe d}
+
+\textcolor{red}{find [ ] \textunderscore = Nothing}
+
+\textcolor{red}{find ( (s,v) : ds) name | name == s = Just v}
+
+\textcolor{red}{  				|otherwise = find ds name}
+
+We need to handle the case when the key is not present, using the Maybe type
+
+
+
+
+
+\textbf{Expressions with Local Variable Declarations}
+
+
+
+\includegraphics{extended}
+
+\textcolor{green}{Def  x  e1  e2} means: x is in scope in e2, bu tno in e1; compute value of e1, and assign value to x; then evaluate e2 as the overall result
+
+
+\textbf{Abstracting Functions}
+
+Consider the following function definitions:
+
+\textcolor{green}{f  a  b = sqr a + sqrt b}
+
+\textcolor{green}{g  x  y = sqrt x * sqr y}
+
+They all have the same general form:
+
+\textcolor{green}{fname arg1 arg2 = someF arg1 'someOp' anotherF arg2}
+
+We can abstract this by adding parameters to represent the bits of the general form.
+
+\textcolor{green}{absF someF anotherF someOp arg1 arg2 = omeF arg1 'someOp' anotherF arg2}
+
+Now f and g can be defined using absF:
+
+\textcolor{green}{f  a  b = absF sqr sqrt (+) a b}
+
+\textcolor{green}{g  x  y = absF sqrt sqr (*) x y}
+
+
+
+\end{document}
+
